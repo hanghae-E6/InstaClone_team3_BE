@@ -10,6 +10,11 @@ require('dotenv').config();
 
 app.use(cors({ exposedHeaders: ['accessToken', 'refreshToken'] }));
 app.use('/api', routes);
+app.use(cors());
+app.use('/api', routes);
+
+const ErrorHandler = require('./middleWares/error.handler.middleware');
+app.use(ErrorHandler);
 
 app.listen(process.env.PORT, () => {
     console.log(process.env.PORT, '포트로 서버가 열렸습니다.');

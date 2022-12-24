@@ -1,8 +1,8 @@
 const CommentsService = require('../services/comments.service');
-// const {
-//     InvalidParamsError,
-//     AuthenticationError,
-// } = require('../exception/index.exception');
+const {
+    InvalidParamsError,
+    AuthenticationError,
+} = require('../middleWares/exceptions/error.class');
 
 class CommentsController {
     constructor() {
@@ -15,8 +15,7 @@ class CommentsController {
             const { postId } = req.params;
             const { comment } = req.body;
             // 인증 미들웨어에서 넘겨준 userId를 userId에 할당
-            // const userId = res.locals.user;
-            const userId = 4;
+            const userId = res.locals.user;
 
             // 만약 토큰 페이로드에 userId 값이 담겨 있지 않다면 undefined를 반환하므로, 여기서 한 번 더 검증
             if (!userId) {
@@ -47,8 +46,7 @@ class CommentsController {
             // 클라에서 전달받은 req 값을 구조분해 할당
             const { postId, commentId } = req.params;
             // 인증 미들웨어에서 넘겨준 userId를 userId에 할당
-            // const userId = res.locals.user;
-            const userId = 4;
+            const userId = res.locals.user;
 
             // 만약 토큰 페이로드에 userId 값이 담겨 있지 않다면 undefined를 반환하므로, 여기서 한 번 더 검증
             if (!userId) {

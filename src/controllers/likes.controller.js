@@ -1,8 +1,8 @@
 const LikesService = require('../services/likes.service');
-// const {
-//     InvalidParamsError,
-//     AuthenticationError,
-// } = require('../exception/index.exception.js');
+const {
+    InvalidParamsError,
+    AuthenticationError,
+} = require('../middleWares/exceptions/error.class');
 
 class LikesController {
     constructor() {
@@ -14,8 +14,7 @@ class LikesController {
             // 클라이언트에서 전달받은 req 값을 할당
             const { postId } = req.params;
             // 인증 미들웨어를 통해 전달 받은 userId를 userId에 할당
-            // const userId = res.locals.user;
-            const userId = 4;
+            const userId = res.locals.user;
 
             if (!userId)
                 throw new AuthenticationError(

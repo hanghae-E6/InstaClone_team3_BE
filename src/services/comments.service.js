@@ -1,9 +1,9 @@
 const CommentsRepository = require('../repositories/comments.repository.js');
 const { Comments, Users, Posts } = require('../models');
-// const {
-//     ValidationError,
-//     AuthenticationError,
-// } = require('../exception/index.exception');
+const {
+    ValidationError,
+    AuthenticationError,
+} = require('../middleWares/exceptions/error.class');
 
 class CommentsService {
     // 데이터 모델을 Repository에 생성자 주입 방식으로 의존성 주입

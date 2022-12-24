@@ -1,18 +1,18 @@
 const express = require('express');
 const router = express.Router();
-// const authMiddleware = require('../middlewares/auth-middleware');
+const authUserMiddleware = require('../middlewares/authUser.middleware');
 const CommentsController = require('../controllers/comments.controller');
 const commentsController = new CommentsController();
 
 router.post(
     '/:postId/comments',
-    // authMiddleware,
+    authUserMiddleware,
     commentsController.createComment
 );
 
 router.delete(
     '/:postId/comments/:commentId',
-    // authMiddleware,
+    authUserMiddleware,
     commentsController.deleteComment
 );
 
