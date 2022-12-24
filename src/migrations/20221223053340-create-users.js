@@ -29,7 +29,7 @@ module.exports = {
             },
             token: {
                 type: Sequelize.DataTypes.STRING,
-                allowNull: false,
+                allowNull: true,
                 unique: true,
             },
             createdAt: {
