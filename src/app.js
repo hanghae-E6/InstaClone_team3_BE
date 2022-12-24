@@ -9,7 +9,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 app.use(cors({ exposedHeaders: ['accessToken', 'refreshToken'] }));
-app.use('/', routes);
+app.use('/api', routes);
 
 app.listen(process.env.PORT, () => {
     console.log(process.env.PORT, '포트로 서버가 열렸습니다.');
