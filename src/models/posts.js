@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            this.belongsTo(models.User, {
+            this.belongsTo(models.Users, {
                 foreignKey: 'userId',
             });
             this.hasMany(models.Comments, {
@@ -33,10 +33,6 @@ module.exports = (sequelize, DataTypes) => {
                     key: 'userId',
                 },
                 onDelete: 'CASCADE',
-                allowNull: false,
-            },
-            title: {
-                type: DataTypes.STRING,
                 allowNull: false,
             },
             content: {

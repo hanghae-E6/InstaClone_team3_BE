@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
             this.belongsTo(models.Posts, {
                 foreignKey: 'postId',
             });
-            this.belongsTo(models.User, {
+            this.belongsTo(models.Users, {
                 foreignKey: 'userId',
             });
         }
