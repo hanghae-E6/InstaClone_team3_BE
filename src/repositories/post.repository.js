@@ -1,12 +1,15 @@
 class PostRepository {
-    constructor(PostsModel, UsersModel, CommentsModel) {
-        this.PostsModel = PostsModel;
-        this.UsersModel = UsersModel;
-        this.CommentsModel = CommentsModel;
+    #PostsModel;
+    #UsersModel;
+    #LikesModel;
+    constructor(PostsModel, UsersModel, LikesModel) {
+        this.#PostsModel = PostsModel;
+        this.#UsersModel = UsersModel;
+        this.#LikesModel = LikesModel;
     }
 
     createPost = async (userId, postImg, content) => {
-        const createdPost = await this.PostsModel.create({
+        const createdPost = await this.#PostsModel.create({
             userId,
             postImg,
             content,
@@ -15,11 +18,16 @@ class PostRepository {
     };
 
     findAllPost = async () => {
-        const posts = await this.PostsModel.findAll({
+        const posts = await this.#PostsModel.findAll({
             include: [
                 {
-                    model: this.UsersModel,
+                    model: this.#UsersModel,
                     attributes: ['nickname'],
+                },
+                {
+                    model: this.#LikesModel,
+                    as: 'Likes',
+                    attributes: ['likeId'],
                 },
             ],
             order: [['createdAt', 'DESC']],
@@ -28,12 +36,17 @@ class PostRepository {
     };
 
     findPostById = async (postId) => {
-        const findPost = await this.PostsModel.findOne({
+        const findPost = await this.#PostsModel.findOne({
             where: { postId },
             include: [
                 {
-                    model: this.UsersModel,
+                    model: this.#UsersModel,
                     attributes: ['nickname'],
+                },
+                {
+                    model: this.#LikesModel,
+                    as: 'Likes',
+                    attributes: ['likeId'],
                 },
             ],
         });
@@ -41,7 +54,7 @@ class PostRepository {
     };
 
     updatePost = async (userId, postId, postImg, content) => {
-        return await this.PostsModel.update(
+        return await this.#PostsModel.update(
             {
                 postImg,
                 content,
@@ -51,17 +64,9 @@ class PostRepository {
     };
 
     deletePost = async (userId, postId) => {
-        return await this.PostsModel.destroy({
+        return await this.#PostsModel.destroy({
             where: { userId, postId },
         });
-    };
-
-    findPost = async (postId) => {
-        const existPost = await this.PostsModel.findOne({
-            where: { postId },
-        });
-
-        return existPost;
     };
 }
 

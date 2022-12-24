@@ -1,9 +1,12 @@
 const PostRepository = require('../repositories/post.repository');
-const { ValidationError } = require('../middleWares/exceptions/error.class');
-const { Users, Posts, Comments, Likes } = require('../models');
+const {
+    ValidationError,
+    AuthenticationError,
+} = require('../middleWares/exceptions/error.class');
+const { Users, Posts, Likes } = require('../models');
 
 class PostService {
-    postRepository = new PostRepository(Posts, Users, Comments, Likes);
+    postRepository = new PostRepository(Posts, Users, Likes);
 
     createPost = async (userId, postImg, content) => {
         const createdPost = await this.postRepository.createPost(
@@ -29,6 +32,7 @@ class PostService {
                 postImg: post.postImg,
                 content: post.content,
                 nickname: post.User.nickname,
+                likes: post.Likes.length,
                 createdAt: post.createdAt,
                 updatedAt: post.updatedAt,
             };
@@ -46,6 +50,7 @@ class PostService {
             postImg: findPost.postImg,
             content: findPost.content,
             nickname: findPost.User.nickname,
+            likes: findPost.Likes.length,
             createdAt: findPost.createdAt,
             updatedAt: findPost.updatedAt,
         };
@@ -57,7 +62,7 @@ class PostService {
             throw new ValidationError('존재하지 않는 게시글입니다.', 404);
         }
         if (findPost.userId !== userId) {
-            throw new ValidationError('권한이 없습니다.', 401);
+            throw new AuthenticationError('권한이 없습니다.', 401);
         }
         await this.postRepository.updatePost(userId, postId, postImg, content);
     };
@@ -68,7 +73,7 @@ class PostService {
             throw new ValidationError('존재하지 않는 게시글입니다.', 404);
         }
         if (findPost.userId !== userId) {
-            throw new ValidationError('권한이 없습니다.', 401);
+            throw new AuthenticationError('권한이 없습니다.', 401);
         }
         await this.postRepository.deletePost(userId, postId);
     };
