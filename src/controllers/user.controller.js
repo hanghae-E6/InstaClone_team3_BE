@@ -1,9 +1,10 @@
-const { request } = require('express');
 const UserService = require('../services/user.service');
+const jwt = require('jsonwebtoken');
 
 class UserController {
     userService = new UserService();
 
+    //회원가입 API
     signUp = async (req, res) => {
         try {
             const { email, nickname, password } = req.body;
@@ -18,6 +19,7 @@ class UserController {
         }
     };
 
+    //아이디/닉네임 통합 중복확인 API
     findDup = async (req, res) => {
         const query = req.query;
         try {
@@ -37,6 +39,37 @@ class UserController {
             }
             res.status(400).json({
                 errorMessage: '중복확인에 실패하였습니다.',
+            });
+        }
+    };
+
+    //로그인 API
+    logIn = async (req, res) => {
+        try {
+            const { email, password } = req.body;
+
+            const { accessToken, refreshToken } = await this.userService.logIn(
+                email,
+                password
+            );
+            const { userId } = jwt.verify(
+                accessToken,
+                process.env.TOKEN_SECRET_KEY
+            );
+
+            res.status(201).json({ userId, accessToken, refreshToken });
+        } catch (error) {
+            console.log(error);
+            if (error === '아이디 또는 패스워드가 일치하지 않습니다.') {
+                return res
+                    .status(412)
+                    .json({
+                        errorMessage:
+                            '아이디 또는 패스워드가 일치하지 않습니다.',
+                    });
+            }
+            res.status(400).json({
+                errorMessage: '로그인에 실패하였습니다.',
             });
         }
     };
