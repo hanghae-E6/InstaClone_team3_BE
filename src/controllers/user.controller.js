@@ -8,7 +8,21 @@ class UserController {
     signUp = async (req, res) => {
         try {
             const { email, nickname, password } = req.body;
-            await this.userService.signUp(email, nickname, password);
+
+            let profileImg = undefined;
+            if (req.file) {
+                profileImg = req.file.location;
+            } else {
+                profileImg =
+                    'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+            }
+
+            await this.userService.signUp(
+                email,
+                nickname,
+                password,
+                profileImg
+            );
 
             res.status(201).json({ message: '회원가입에 성공하였습니다.' });
         } catch (error) {

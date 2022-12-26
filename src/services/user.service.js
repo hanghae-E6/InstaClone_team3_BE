@@ -8,12 +8,13 @@ class UserService {
     userRepository = new UserRepository(Users);
 
     //회원가입 API
-    signUp = async (email, nickname, password) => {
+    signUp = async (email, nickname, password, profileImg) => {
         const hashValue = hash(password);
         const user = await this.userRepository.createUser(
             email,
             nickname,
-            hashValue
+            hashValue,
+            profileImg
         );
         return user;
     };

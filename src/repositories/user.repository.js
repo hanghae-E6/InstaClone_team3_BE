@@ -6,11 +6,12 @@ class UserRepository {
         this.#userModel = UserModel;
     }
 
-    createUser = async (email, nickname, password) => {
+    createUser = async (email, nickname, password, profileImg) => {
         const createUser = await this.#userModel.create({
             email,
             nickname,
             password,
+            profileImg,
         });
         return createUser;
     };
