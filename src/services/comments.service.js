@@ -3,7 +3,7 @@ const { Comments, Users, Posts } = require('../models');
 const {
     ValidationError,
     AuthenticationError,
-} = require('../middleWares/exceptions/error.class');
+} = require('../middlewares/exceptions/error.class');
 
 class CommentsService {
     // 데이터 모델을 Repository에 생성자 주입 방식으로 의존성 주입

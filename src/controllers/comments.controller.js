@@ -2,7 +2,7 @@ const CommentsService = require('../services/comments.service');
 const {
     InvalidParamsError,
     AuthenticationError,
-} = require('../middleWares/exceptions/error.class');
+} = require('../middlewares/exceptions/error.class');
 
 class CommentsController {
     constructor() {

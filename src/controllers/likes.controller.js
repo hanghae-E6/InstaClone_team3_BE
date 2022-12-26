@@ -2,7 +2,7 @@ const LikesService = require('../services/likes.service');
 const {
     InvalidParamsError,
     AuthenticationError,
-} = require('../middleWares/exceptions/error.class');
+} = require('../middlewares/exceptions/error.class');
 
 class LikesController {
     constructor() {
