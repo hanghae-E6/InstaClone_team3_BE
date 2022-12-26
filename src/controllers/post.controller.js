@@ -11,11 +11,11 @@ class PostController {
             const { userId } = res.locals;
             let postImg = undefined;
 
-            if (!content) {
-                throw new InvalidParamsError();
-            }
             if (req.file) {
                 postImg = req.file.location;
+            }
+            if (!content || !postImg) {
+                throw new InvalidParamsError();
             }
 
             const { postId } = await this.postService.createPost(

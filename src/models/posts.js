@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             postImg: {
                 type: DataTypes.STRING,
-                allowNull: true,
+                allowNull: false,
             },
             createdAt: {
                 allowNull: false,

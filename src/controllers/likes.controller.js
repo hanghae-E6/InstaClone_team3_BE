@@ -14,7 +14,7 @@ class LikesController {
             // 클라이언트에서 전달받은 req 값을 할당
             const { postId } = req.params;
             // 인증 미들웨어를 통해 전달 받은 userId를 userId에 할당
-            const userId = res.locals.user;
+            const { userId } = res.locals;
 
             if (!userId)
                 throw new AuthenticationError(
@@ -37,11 +37,11 @@ class LikesController {
             if (isLike) {
                 return res
                     .status(200)
-                    .json({ message: '게시글 찜하기를 취소했습니다.' });
+                    .json({ message: '게시글 좋아요를 취소했습니다.' });
             }
             // 찜 안했으면 찜하기
             res.status(201).json({
-                message: '게시글을 찜했습니다.',
+                message: '게시글을 좋아요 했습니다.',
             });
         } catch (error) {
             next(error);

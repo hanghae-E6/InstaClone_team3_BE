@@ -24,7 +24,7 @@ module.exports = {
             },
             postImg: {
                 type: Sequelize.DataTypes.STRING,
-                allowNull: true,
+                allowNull: false,
             },
             createdAt: {
                 allowNull: false,
