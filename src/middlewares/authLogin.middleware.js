@@ -16,7 +16,7 @@ module.exports = async (req, res, next) => {
     const [accessTokenType, accessTokenValue] = (accessToken || '').split(' ');
 
     try {
-        if (accessToken && validateToken(accessTokenValue)) {
+        if (accessToken || validateToken(accessTokenValue)) {
             throw '이미 로그인 되어있습니다.';
         }
         next();
