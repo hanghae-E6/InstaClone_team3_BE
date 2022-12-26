@@ -13,7 +13,7 @@ app.use('/api', routes);
 app.use(cors());
 app.use('/api', routes);
 
-const ErrorHandler = require('./middleWares/error.handler.middleware');
+const ErrorHandler = require('./middlewares/error.handler.middleware');
 app.use(ErrorHandler);
 
 app.listen(process.env.PORT, () => {
