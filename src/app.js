@@ -8,6 +8,8 @@ const cors = require('cors');
 
 require('dotenv').config();
 
+app.use(cors({ exposedHeaders: ['accessToken', 'refreshToken'] }));
+app.use('/api', routes);
 app.use(cors());
 app.use('/api', routes);
 
