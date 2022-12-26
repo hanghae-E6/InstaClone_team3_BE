@@ -6,7 +6,7 @@ module.exports = {
         database: process.env.DB_NAME,
         host: process.env.DB_END_POINT,
         dialect: 'mysql',
-        timezone: 'Asia/Seoul',
+        timezone: '+09:00',
         dialectOptions: {
             charset: 'utf8mb4',
             dateStrings: true,

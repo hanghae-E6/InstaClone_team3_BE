@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const upload = require('../modules/postImg');
-const authUserMiddleware = require('../middleWares/authUser.middleware');
+const authUserMiddleware = require('../middlewares/authUser.middleware');
 
 const PostController = require('../controllers/post.controller');
 const postController = new PostController();
@@ -23,8 +23,8 @@ router.put(
 // 게시글 삭제
 router.delete('/:postId', authUserMiddleware, postController.deletePost);
 // 게시글 전체조회
-router.get('/', authUserMiddleware, postController.getPosts);
+router.get('/', postController.getPosts);
 // 게시글 상세조회
-router.get('/:postId', authUserMiddleware, postController.getPostById);
+router.get('/:postId', postController.getPostById);
 
 module.exports = router;

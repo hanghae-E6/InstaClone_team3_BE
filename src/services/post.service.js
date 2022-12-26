@@ -2,7 +2,7 @@ const PostRepository = require('../repositories/post.repository');
 const {
     ValidationError,
     AuthenticationError,
-} = require('../middleWares/exceptions/error.class');
+} = require('../middlewares/exceptions/error.class');
 const { Users, Posts, Likes } = require('../models');
 
 class PostService {

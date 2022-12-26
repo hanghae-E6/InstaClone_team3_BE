@@ -1,5 +1,5 @@
 const PostService = require('../services/post.service.js');
-const { InvalidParamsError } = require('../middleWares/exceptions/error.class');
+const { InvalidParamsError } = require('../middlewares/exceptions/error.class');
 
 class PostController {
     postService = new PostService();

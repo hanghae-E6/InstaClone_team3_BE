@@ -2,9 +2,10 @@ const express = require('express');
 const UserController = require('../controllers/user.controller');
 const userController = new UserController();
 const router = express.Router();
+const upload = require('../modules/profileImg.js');
 const authLoginMiddleware = require('../middlewares/authLogin.middleware');
 
-router.post('/signup', userController.signUp);
+router.post('/signup', upload.single('profileImg'), userController.signUp);
 router.get('/signup/findDup', userController.findDup);
 router.post('/login', authLoginMiddleware, userController.logIn);
 
