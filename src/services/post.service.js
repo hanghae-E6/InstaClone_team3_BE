@@ -1,4 +1,5 @@
 const PostRepository = require('../repositories/post.repository');
+const UserRepository = require('../repositories/user.repository.js');
 const {
     ValidationError,
     AuthenticationError,
@@ -25,7 +26,6 @@ class PostService {
         if (!posts) {
             throw ValidationError('게시글 조회에 실패하였습니다.', 400);
         }
-        console.log(posts[10].User);
         return posts.map((post) => {
             return {
                 postId: post.postId,

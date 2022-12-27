@@ -71,7 +71,9 @@ class PostController {
             res.status(400).json({
                 errorMessage: '게시물 조회에 실패하였습니다.',
             });
-            
+        }
+    };
+
     // 게시글 페이지 조회
     getPostsByPage = async (req, res, next) => {
         try {
