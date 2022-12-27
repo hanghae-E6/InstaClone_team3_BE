@@ -59,7 +59,6 @@ class PostService {
         };
     };
 
-
     findUserPosts = async (userId) => {
         const user = await this.userRepository.findOneUser(userId);
         if (!user) throw '존재하지 않는 사용자입니다.';
@@ -68,7 +67,7 @@ class PostService {
 
         return posts;
     };
-    
+
     findAllCommentById = async (postId) => {
         const findAllComment = await this.postRepository.findAllCommentById(
             postId
@@ -113,7 +112,7 @@ class PostService {
                 updatedAt: post.updatedAt,
             };
         });
-    
+    };
 
     updatePost = async (userId, postId, postImg, content) => {
         const findPost = await this.postRepository.findPostById(postId);
