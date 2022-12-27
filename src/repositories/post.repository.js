@@ -1,11 +1,15 @@
+const { Op } = require('sequelize');
+
 class PostRepository {
     #PostsModel;
     #UsersModel;
     #LikesModel;
-    constructor(PostsModel, UsersModel, LikesModel) {
+    #CommentsModel;
+    constructor(PostsModel, UsersModel, LikesModel, CommentsModel) {
         this.#PostsModel = PostsModel;
         this.#UsersModel = UsersModel;
         this.#LikesModel = LikesModel;
+        this.#CommentsModel = CommentsModel;
     }
 
     createPost = async (userId, postImg, content) => {
@@ -63,6 +67,38 @@ class PostRepository {
                 },
             ],
         });
+    };
+    findAllCommentById = async (postId) => {
+        const comments = await this.#CommentsModel.findAll({
+            where: { postId },
+            order: [['createdAt', 'DESC']],
+        });
+        return comments;
+    };
+
+    getPostsByPage = async (pageNo) => {
+        const posts = await this.#PostsModel.findAll({
+            offset: pageNo,
+            limit: 5,
+            include: [
+                {
+                    model: this.#UsersModel,
+                    attributes: ['nickname'],
+                },
+                {
+                    model: this.#LikesModel,
+                    as: 'Likes',
+                    attributes: ['likeId'],
+                },
+            ],
+            order: [['createdAt', 'DESC']],
+        });
+
+        if (posts.length === 0) {
+            return false;
+        } else {
+            return posts;
+        }
     };
 
     updatePost = async (userId, postId, postImg, content) => {
