@@ -78,6 +78,8 @@ class PostService {
             return findAllComment.map((comment) => {
                 return {
                     nickname: comment.User.nickname,
+                    userId: comment.userId,
+                    commentId: comment.commentId,
                     comment: comment.comment,
                     createdAt: comment.createdAt,
                     updatedAt: comment.updatedAt,
