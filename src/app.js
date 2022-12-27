@@ -8,7 +8,7 @@ const cors = require('cors');
 
 require('dotenv').config();
 
-app.use(cors());
+app.use(cors({ exposedHeaders: ['accesstoken', 'refreshtoken'] }));
 app.use('/api', routes);
 
 const ErrorHandler = require('./middlewares/error.handler.middleware');
