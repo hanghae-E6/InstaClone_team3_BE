@@ -60,6 +60,18 @@ class PostController {
         }
     };
 
+    // 특정 유저 게시글 조회
+    findUserPosts = async (req, res) => {
+        try {
+            const { userId } = req.params;
+            const posts = await this.postService.findUserPosts(userId);
+            res.status(200).json({ posts });
+        } catch (error) {
+            console.log(error);
+            res.status(400).json({
+                errorMessage: '게시물 조회에 실패하였습니다.',
+            });
+            
     // 게시글 페이지 조회
     getPostsByPage = async (req, res, next) => {
         try {

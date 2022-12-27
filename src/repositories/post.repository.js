@@ -57,15 +57,20 @@ class PostRepository {
         return findPost;
     };
 
-    findAllCommentById = async (postId) => {
-        const comments = await this.#CommentsModel.findAll({
-            where: { postId },
+    findUserPosts = async (userId) => {
+        return this.#PostsModel.findAll({
+            where: { userId },
             include: [
                 {
                     model: this.#UsersModel,
                     attributes: ['nickname'],
                 },
             ],
+        });
+    };
+    findAllCommentById = async (postId) => {
+        const comments = await this.#CommentsModel.findAll({
+            where: { postId },
             order: [['createdAt', 'DESC']],
         });
         return comments;

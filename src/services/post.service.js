@@ -7,6 +7,7 @@ const { Users, Posts, Likes, Comments } = require('../models');
 
 class PostService {
     postRepository = new PostRepository(Posts, Users, Likes, Comments);
+    userRepository = new UserRepository(Users);
 
     createPost = async (userId, postImg, content) => {
         const createdPost = await this.postRepository.createPost(
@@ -24,6 +25,7 @@ class PostService {
         if (!posts) {
             throw ValidationError('게시글 조회에 실패하였습니다.', 400);
         }
+        console.log(posts[10].User);
         return posts.map((post) => {
             return {
                 postId: post.postId,
@@ -57,6 +59,16 @@ class PostService {
         };
     };
 
+
+    findUserPosts = async (userId) => {
+        const user = await this.userRepository.findOneUser(userId);
+        if (!user) throw '존재하지 않는 사용자입니다.';
+
+        const posts = await this.postRepository.findUserPosts(userId);
+
+        return posts;
+    };
+    
     findAllCommentById = async (postId) => {
         const findAllComment = await this.postRepository.findAllCommentById(
             postId
@@ -101,7 +113,7 @@ class PostService {
                 updatedAt: post.updatedAt,
             };
         });
-    };
+    
 
     updatePost = async (userId, postId, postImg, content) => {
         const findPost = await this.postRepository.findPostById(postId);

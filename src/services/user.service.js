@@ -57,6 +57,27 @@ class UserService {
 
         return { accessToken, refreshToken };
     };
+
+    findOneUser = async (userId) => {
+        const user = await this.userRepository.findOneUser(userId);
+        if (!user) throw '존재하지 않는 사용자입니다.';
+        else
+            return {
+                userId: user.userId,
+                email: user.email,
+                nickname: user.nickname,
+                profileImg: user.profileImg,
+                createdAt: user.createdAt,
+                updatedAt: user.updatedAt,
+            };
+    };
+
+    updateUser = async (userId, nickname, tokenUserId, profileImg) => {
+        const user = await this.userRepository.findOneUser(userId);
+        if (!user) throw new Error('존재하지않는 사용자입니다.');
+        if (user.userId !== tokenUserId) throw new Error('권한이 없습니다.');
+        await this.userRepository.updatePost(userId, nickname, profileImg);
+    };
 }
 
 module.exports = UserService;
