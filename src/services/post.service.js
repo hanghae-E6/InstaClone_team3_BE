@@ -3,10 +3,10 @@ const {
     ValidationError,
     AuthenticationError,
 } = require('../middlewares/exceptions/error.class');
-const { Users, Posts, Likes } = require('../models');
+const { Users, Posts, Likes, Comments } = require('../models');
 
 class PostService {
-    postRepository = new PostRepository(Posts, Users, Likes);
+    postRepository = new PostRepository(Posts, Users, Likes, Comments);
 
     createPost = async (userId, postImg, content) => {
         const createdPost = await this.postRepository.createPost(
@@ -41,9 +41,10 @@ class PostService {
 
     findPostById = async (postId) => {
         const findPost = await this.postRepository.findPostById(postId);
-
-        if (!findPost)
+        if (!findPost) {
             throw new ValidationError('존재하지 않는 게시글입니다.', 404);
+        }
+
         return {
             postId: findPost.postId,
             userId: findPost.userId,
@@ -54,6 +55,52 @@ class PostService {
             createdAt: findPost.createdAt,
             updatedAt: findPost.updatedAt,
         };
+    };
+
+    findAllCommentById = async (postId) => {
+        const findAllComment = await this.postRepository.findAllCommentById(
+            postId
+        );
+        if (!findAllComment) {
+            return null;
+        } else {
+            return findAllComment.map((comment) => {
+                return {
+                    nickname: comment.User.nickname,
+                    comment: comment.comment,
+                    createdAt: comment.createdAt,
+                    updatedAt: comment.updatedAt,
+                };
+            });
+        }
+    };
+
+    getPostsByPage = async (pageNo) => {
+        let start = 0;
+
+        if (pageNo <= 0) {
+            pageNo = 1;
+        } else {
+            start = (pageNo - 1) * 5;
+        }
+
+        const posts = await this.postRepository.getPostsByPage(start);
+        if (!posts) {
+            throw new ValidationError('존재하지 않는 페이지입니다.', 404);
+        }
+        return posts.map((post) => {
+            return {
+                postId: post.postId,
+                userId: post.userId,
+                title: post.title,
+                postImg: post.postImg,
+                content: post.content,
+                nickname: post.User.nickname,
+                likes: post.Likes.length,
+                createdAt: post.createdAt,
+                updatedAt: post.updatedAt,
+            };
+        });
     };
 
     updatePost = async (userId, postId, postImg, content) => {

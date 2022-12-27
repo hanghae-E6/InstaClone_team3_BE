@@ -22,6 +22,8 @@ router.put(
 );
 // 게시글 삭제
 router.delete('/:postId', authUserMiddleware, postController.deletePost);
+// 게시글 페이지 조회
+router.get('/page', postController.getPostsByPage);
 // 게시글 전체조회
 router.get('/', postController.getPosts);
 // 게시글 상세조회
