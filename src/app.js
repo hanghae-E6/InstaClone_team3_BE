@@ -8,13 +8,7 @@ const cors = require('cors');
 
 require('dotenv').config();
 
-app.use(
-    cors({
-        origin: 'http://localhost:3000',
-        credentials: true,
-        optionsSuccessStatus: 200,
-    })
-);
+app.use(cors());
 app.use('/api', routes);
 
 const ErrorHandler = require('./middlewares/error.handler.middleware');
