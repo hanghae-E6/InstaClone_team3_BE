@@ -10,8 +10,6 @@ require('dotenv').config();
 
 app.use(cors());
 app.use('/api', routes);
-app.use(cors());
-app.use('/api', routes);
 
 const ErrorHandler = require('./middlewares/error.handler.middleware');
 app.use(ErrorHandler);
