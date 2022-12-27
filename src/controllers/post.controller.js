@@ -50,10 +50,26 @@ class PostController {
             const { postId } = req.params;
 
             const post = await this.postService.findPostById(postId);
-
+            const comments = await this.postService.findAllCommentById(postId);
             res.status(200).json({
                 post: post,
+                comments: comments,
             });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    // 게시글 페이지 조회
+    getPostsByPage = async (req, res, next) => {
+        try {
+            const pageInfo = req.query;
+            const pageNo = pageInfo.pageno;
+            if (!pageInfo) {
+                throw new InvalidParamsError();
+            }
+            const posts = await this.postService.getPostsByPage(pageNo);
+            res.status(200).json({ posts: posts });
         } catch (error) {
             next(error);
         }
