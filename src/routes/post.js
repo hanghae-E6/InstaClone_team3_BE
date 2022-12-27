@@ -27,4 +27,7 @@ router.get('/', postController.getPosts);
 // 게시글 상세조회
 router.get('/:postId', postController.getPostById);
 
+// 특정 유저 게시글 조회
+router.get('/user/:userId', postController.findUserPosts);
+
 module.exports = router;

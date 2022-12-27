@@ -53,6 +53,18 @@ class PostRepository {
         return findPost;
     };
 
+    findUserPosts = async (userId) => {
+        return this.#PostsModel.findAll({
+            where: { userId },
+            include: [
+                {
+                    model: this.#UsersModel,
+                    attributes: ['nickname'],
+                },
+            ],
+        });
+    };
+
     updatePost = async (userId, postId, postImg, content) => {
         return await this.#PostsModel.update(
             {

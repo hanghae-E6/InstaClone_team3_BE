@@ -38,6 +38,19 @@ class UserRepository {
     updateRefreshToken = async (token, email) => {
         await this.#userModel.update({ token }, { where: { email: email } });
     };
+
+    findOneUser = async (userId) => {
+        return this.#userModel.findOne({
+            where: { userId },
+        });
+    };
+
+    updatePost = async (userId, nickname, profileImg) => {
+        return this.#userModel.update(
+            { nickname, profileImg },
+            { where: { userId } }
+        );
+    };
 }
 
 module.exports = UserRepository;
