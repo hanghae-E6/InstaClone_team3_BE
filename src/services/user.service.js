@@ -1,11 +1,13 @@
 const UserRepository = require('../repositories/user.repository');
-const { Users } = require('../models');
+const FollowRepository = require('../repositories/follow.repository');
+const { Users, Follows } = require('../models');
 require('dotenv').config();
 const hash = require('../util/auth-encryption.util.js');
 const { createToken } = require('../util/auth-jwtToken.util.js');
 
 class UserService {
     userRepository = new UserRepository(Users);
+    followRepository = new FollowRepository(Follows);
 
     //회원가입 API
     signUp = async (email, nickname, password, profileImg) => {
@@ -61,15 +63,24 @@ class UserService {
     findOneUser = async (userId) => {
         const user = await this.userRepository.findOneUser(userId);
         if (!user) throw '존재하지 않는 사용자입니다.';
-        else
-            return {
-                userId: user.userId,
-                email: user.email,
-                nickname: user.nickname,
-                profileImg: user.profileImg,
-                createdAt: user.createdAt,
-                updatedAt: user.updatedAt,
-            };
+
+        const followingCounts = await this.followRepository.getFollowingList(
+            userId
+        );
+        const followerCounts = await this.followRepository.getFollowerList(
+            userId
+        );
+
+        return {
+            userId: user.userId,
+            email: user.email,
+            nickname: user.nickname,
+            profileImg: user.profileImg,
+            following: followingCounts.length,
+            follower: followerCounts.length,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt,
+        };
     };
 
     updateUser = async (userId, nickname, tokenUserId, profileImg) => {

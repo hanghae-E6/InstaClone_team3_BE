@@ -8,5 +8,6 @@ router.use('/posts', [likeRouter, commentRouter]);
 
 router.use('/posts', require('./post'));
 router.use('/user', require('./user.route.js'));
+router.use('/follow', require('./follows.route.js'));
 
 module.exports = router;
