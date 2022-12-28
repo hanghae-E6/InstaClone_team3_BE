@@ -24,9 +24,10 @@ jobs:
               uses: actions/setup-node@v3
               with:
                   node-version: ${{ matrix.node-version }}
+                  cache: 'npm'
             - name: Docker build
-                  run: |
-                            docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
-                            docker build --platform linux/amd64 -t node-example .
-                            docker tag node-example hacksen/docker-clone-project:${GITHUB_SHA::7}
-                            docker push hacksen/docker-clone-project:${GITHUB_SHA::7}
+              run: |
+                  docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
+                  docker build --platform linux/amd64 -t node-example .
+                  docker tag node-example hacksen/docker-clone-project:${GITHUB_SHA::7}
+                  docker push hacksen/docker-clone-project:${GITHUB_SHA::7}
