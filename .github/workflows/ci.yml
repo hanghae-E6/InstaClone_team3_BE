@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
     push:
-        branches: ['dev']
+        branches: [feature/posts]
     pull_request:
-        branches: ['dev']
+        branches: [feature/posts]
 
 jobs:
     build:
@@ -24,7 +24,6 @@ jobs:
               uses: actions/setup-node@v3
               with:
                   node-version: ${{ matrix.node-version }}
-                  cache: 'npm'
             - name: Docker build
                   run: |
                             docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
