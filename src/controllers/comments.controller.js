@@ -69,6 +69,20 @@ class CommentsController {
             next(err);
         }
     };
+
+    papagoTranslate = async (req, res, next) => {
+        try {
+            const { postId, commentId } = req.params;
+
+            await this.commentsService.papagoTranslate(
+                Number(postId),
+                Number(commentId)
+            );
+            res.status(200).json({ message: '번역이 되었습니다.' });
+        } catch (err) {
+            next(err);
+        }
+    };
 }
 
 module.exports = CommentsController;

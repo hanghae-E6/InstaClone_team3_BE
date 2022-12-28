@@ -4,7 +4,7 @@ const {
     ValidationError,
     AuthenticationError,
 } = require('../middlewares/exceptions/error.class');
-
+const axios = require('axios');
 class CommentsService {
     // 데이터 모델을 Repository에 생성자 주입 방식으로 의존성 주입
     constructor() {
@@ -61,6 +61,63 @@ class CommentsService {
         );
 
         if (!result) throw new ValidationError();
+    };
+
+    papagoTranslate = async (postId, commentId) => {
+        const client_id = 'sOX6rdwOgpOefCctbSWw';
+        const client_secret = 'ub7Gp0cKif';
+        const result = [];
+        const targetComment = await this.commentsRepository.findComment(
+            commentId
+        );
+
+        const commentText = targetComment.comment;
+        const data = { source: 'en', target: 'ko', text: commentText };
+        const config = {
+            method: 'post',
+            url: 'https://openapi.naver.com/v1/papago/n2mt',
+            header: {
+                'X-Naver-Client-Id': client_id,
+                'X-Naver-Client-Secret': client_secret,
+            },
+            data: data,
+        };
+        await axios(config)
+            .then((res) => {
+                const translatedText = JSON.stringify(
+                    res.data.message.result.translatedText
+                );
+                console.log(translatedText);
+                result.push(translatedText);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+
+        // var query = '번역할 문장을 입력하세요.';
+        // app.get('/translate', function (req, res) {
+        //     var api_url = 'https://openapi.naver.com/v1/papago/n2mt';
+        //     var request = require('request');
+        //     var options = {
+        //         url: api_url,
+        //         form: { source: 'en', target: 'ko', text: query },
+        //         headers: {
+        //             'X-Naver-Client-Id': client_id,
+        //             'X-Naver-Client-Secret': client_secret,
+        //         },
+        //     };
+        //     request.post(options, function (error, response, body) {
+        //         if (!error && response.statusCode == 200) {
+        //             res.writeHead(200, {
+        //                 'Content-Type': 'text/json;charset=utf-8',
+        //             });
+        //             res.end(body);
+        //         } else {
+        //             res.status(response.statusCode).end();
+        //             console.log('error = ' + response.statusCode);
+        //         }
+        //     });
+        // });
     };
 }
 
